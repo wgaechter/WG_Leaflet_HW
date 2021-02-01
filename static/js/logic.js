@@ -96,12 +96,35 @@ d3.json(url, function(data) {
 });    
 
 //LEGEND
+
+/* function getColor(d) {
+    return d >= 90  ? '#8B0000' :
+           d > 500  ? '#BD0026' :
+           d > 200  ? '#E31A1C' :
+           d > 100  ? '#FC4E2A' :
+           d > 50   ? '#FD8D3C' :
+           d > 20   ? '#FEB24C' :
+           d > 10   ? '#FED976' :
+                      '#FFEDA0';
+} */
+
+
 var info = L.control({
     position: "bottomleft"
 });
 
-info.onAdd = function() {
-    var div = L.DomUtil.create("div", "legend");
+info.onAdd = function(map) {
+    var div = L.DomUtil.create("div", "info legend"),
+        depths = [0, 10, 30, 50, 70, 90],
+        colorsList = ["#00FF00", "#ADFF2F", "#FFFF00", "#FF0000", "#FF0000", "#8B0000"],
+        labels = [];
+    
+    for (var i = 0; i < depths.length; i++) {
+        div.innerHTML +=
+        '<i style="background:' + colorsList[i] + '"></i>' +
+        depths[i] + (depths[i + 1] ? '&ndash;' + depths[i + 1] + '<br>' : '+');
+    };
+
     return div;
 };
 
